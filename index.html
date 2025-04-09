@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectrum Tournament - Kho-Kho Matches</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e63946;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #457b9d;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        .venue {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #e63946;
+        }
+        .matches-container {
+            margin-bottom: 30px;
+        }
+        .match {
+            background-color: #f1faee;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #1d3557;
+        }
+        .teams {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1d3557;
+            margin-bottom: 10px;
+        }
+        .details {
+            margin-left: 15px;
+        }
+        .detail {
+            margin: 5px 0;
+        }
+        .icon {
+            margin-right: 10px;
+        }
+        .cta {
+            text-align: center;
+            margin: 30px 0;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #e63946;
+        }
+        .schedule {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #457b9d;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .pools {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .pool {
+            width: 45%;
+        }
+        .pool h3 {
+            text-align: center;
+            color: #1d3557;
+        }
+        .round-title {
+            background-color: #1d3557;
+            color: white;
+            padding: 10px;
+            margin: 20px 0 10px 0;
+            border-radius: 5px;
+        }
+        .women {
+            border-left: 5px solid #9c27b0;
+        }
+        .men {
+            border-left: 5px solid #1d3557;
+        }
+        
+        /* Tab Navigation Styles */
+        .tabs {
+            overflow: hidden;
+            margin: 20px 0;
+            border-bottom: 2px solid #457b9d;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background-color: #f1faee;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            flex: 1;
+        }
+        
+        .tab-button:hover {
+            background-color: #ddd;
+        }
+        
+        .tab-button.active {
+            background-color: #457b9d;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 6px 12px;
+            animation: fadeEffect 1s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .scoreboard {
+            width: 100%;
+            height: 500px;
+            border: none;
+            margin-top: 20px;
+        }
+        
+        /* Comments section styles */
+        .comments-intro {
+            margin-bottom: 30px;
+        }
+
+        .utterances-container {
+            margin-top: 30px;
+        }
+        
+        .comments-loading {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
+            }
+            
+            /* Make pools stack on mobile */
+            .pools {
+                flex-direction: column;
+            }
+            
+            .pool {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            /* Improve tab navigation */
+            .tab-button {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            /* Table responsive styles */
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            /* Match details adjustments */
+            .teams {
+                font-size: 1.2em;
+            }
+            
+            .details {
+                margin-left: 5px;
+            }
+            
+            .scoreboard {
+                height: 350px;
+            }
+        }
+        
+        /* Extra small screens */
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .tab-button {
+                margin-right: 0;
+            }
+            
+            .scoreboard {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SPECTRUM TOURNAMENT</h1>
+        <h2>KHO-KHO MATCHES</h2>
+        
+        <div class="venue">
+            <p><span class="icon">📍</span> All matches at TMC Ground</p>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'schedule-tab')">Schedule</button>
+            <button class="tab-button" onclick="openTab(event, 'scoreboard-tab')">Scoreboard</button>
+            <button class="tab-button" onclick="openTab(event, 'comments-tab')">Comments</button>
+        </div>
+        
+        <!-- Schedule Tab Content -->
+        <div id="schedule-tab" class="tab-content active">
+            <div class="matches-container">
+                <div class="match men">
+                    <div class="teams">MEN'S MATCH: STAFF vs CENSE</div>
+                    <div class="details">
+                        <p class="detail"><span class="icon">📅</span> Tuesday, 8th April 2025</p>
+                        <p class="detail"><span class="icon">🕖</span> 7:00 PM</p>
+                    </div>
+                </div>
+                
+                <div class="match women">
+                    <div class="teams">WOMEN'S MATCH: CIVIL vs UG</div>
+                    <div class="details">
+                        <p class="detail"><span class="icon">📅</span> Tuesday, 8th April 2025</p>
+                        <p class="detail"><span class="icon">🕗</span> 8:00 PM</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta">
+                COME SUPPORT YOUR TEAM!
+            </div>
+            
+            <div class="schedule">
+                <h2>Men's Tournament Schedule</h2>
+                
+                <div class="pools">
+                    <div class="pool">
+                        <h3>Pool A</h3>
+                        <ul>
+                            <li>Bio Engineering (1)</li>
+                            <li>CSA (3)</li>
+                            <li>UG (5)</li>
+                        </ul>
+                    </div>
+                    <div class="pool">
+                        <h3>Pool B</h3>
+                        <ul>
+                            <li>Civil (2)</li>
+                            <li>DESE (4)</li>
+                            <li>Staff (6)</li>
+                            <li>CENSE (8)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="round-title">ROUND 1</div>
+                
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Match 1</th>
+                            <th>Time</th>
+                            <th>Match 2</th>
+                            <th>Time</th>
+                            <th>Match 3</th>
+                            <th>Time</th>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>Staff vs CENSE</td>
+                            <td>7:00 PM</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td>UG vs Bio Engineering</td>
+                            <td>5:30 PM</td>
+                            <td>DESE vs Staff</td>
+                            <td>7:15 PM</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>CSA vs UG</td>
+                            <td>4:30 PM</td>
+                            <td>Civil Eng vs DESE</td>
+                            <td>5:30 PM</td>
+                            <td>Civil Eng vs CENSE</td>
+                            <td>8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>DESE vs CENSE</td>
+                            <td>-</td>
+                            <td>Staff vs Civil Eng</td>
+                            <td>-</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="round-title">ROUND 2</div>
+                
+                <p><strong>Semifinal 1:</strong> Between Pool B 1st position vs Pool A 2nd position</p>
+                <p><strong>Semifinal qualifier:</strong> Between Pool B 2nd and 3rd position</p>
+                <p><strong>Semifinal 2:</strong> Semifinal qualifier winner vs Pool A 1st position</p>
+            </div>
+        </div>
+        
+        <!-- Scoreboard Tab Content -->
+        <div id="scoreboard-tab" class="tab-content">
+            <h2>Tournament Scoreboard</h2>
+            <iframe class="scoreboard" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVIjDOrE4ZoZ62KiMIDgRL4dfvJMQfHFWzMmDUtwozZMlD1_XEIc4gEVteXte04xs7cQ8eVa-4YvWi/pubhtml?widget=true&amp;headers=false"></iframe>
+        </div>
+        
+        <!-- Comments Tab Content -->
+        <div id="comments-tab" class="tab-content">
+            <h2>Fan Comments</h2>
+            <div class="comments-intro">
+                <p>Share your thoughts, support your team, or discuss the matches! Sign in with your GitHub account to comment.</p>
+            </div>
+            
+            <div id="utterances-container" class="utterances-container">
+                <div class="comments-loading">Loading comments...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Declare all variables
+            let i, tabContent, tabButtons;
+            
+            // Get all elements with class="tab-content" and hide them
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            
+            // Get all elements with class="tab-button" and remove the class "active"
+            tabButtons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            
+            // Load Utterances when comments tab is opened
+            if (tabName === 'comments-tab') {
+                loadUtterances();
+            }
+        }
+        
+        function loadUtterances() {
+            // Don't load if already loaded
+            if (document.querySelector('.utterances')) return;
+            
+            const utterancesContainer = document.getElementById('utterances-container');
+            const script = document.createElement('script');
+            script.src = 'https://utteranc.es/client.js';
+            script.setAttribute('repo', 'SHAUKAT23/test');  // Replace with your username/repo
+            script.setAttribute('issue-term', 'kho-kho-tournament-comments');
+            script.setAttribute('theme', 'github-light');
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            
+            // Remove loading message and append script
+            utterancesContainer.innerHTML = '';
+            utterancesContainer.appendChild(script);
+        }
+        
+        // Check screen size and adjust tab UI
+        function checkScreenSize() {
+            const tabButtons = document.getElementsByClassName("tab-button");
+            if (window.innerWidth <= 480) {
+                for (let i = 0; i < tabButtons.length; i++) {
+                    tabButtons[i].style.width = (100 / tabButtons.length) + "%";
+                }
+            } else {
+                for (let i = 0; i < tabButtons.length; i++) {
+                    tabButtons[i].style.width = "";
+                }
+            }
+        }
+        
+        // Run on page load and resize
+        window.onload = checkScreenSize;
+        window.onresize = checkScreenSize;
+    </script>
+</body>
+</html>
