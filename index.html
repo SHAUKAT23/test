@@ -384,22 +384,14 @@
             </div>
         </div>
         
-        <!-- Scoreboard Tab Content -->
-        <div id="scoreboard-tab" class="tab-content">
-            <h2>Tournament Scoreboard</h2>
-            <iframe class="scoreboard" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQVIjDOrE4ZoZ62KiMIDgRL4dfvJMQfHFWzMmDUtwozZMlD1_XEIc4gEVteXte04xs7cQ8eVa-4YvWi/pubhtml?widget=true&amp;headers=false"></iframe>
-        </div>
-        
-        <!-- Comments Tab Content -->
+          <!-- Comments Tab Content -->
         <div id="comments-tab" class="tab-content">
-            <h2>Fan Comments</h2>
-            <div class="comments-intro">
-                <p>Share your thoughts, support your team, or discuss the matches! Sign in with your GitHub account to comment.</p>
-            </div>
-            
-            <div id="utterances-container" class="utterances-container">
-                <div class="comments-loading">Loading comments...</div>
-            </div>
+           <h2>Fan Comments</h2>
+           <div class="comments-intro">
+               <p>Share your thoughts, support your team, or discuss the matches! You can comment as a guest without signing in.</p>
+           </div>
+    
+           <div id="disqus_thread"></div>
         </div>
     </div>
 
@@ -426,26 +418,26 @@
             
             // Load Utterances when comments tab is opened
             if (tabName === 'comments-tab') {
-                loadUtterances();
+                loadDisqus();
             }
         }
         
-        function loadUtterances() {
+        function loadDisqus() {
             // Don't load if already loaded
-            if (document.querySelector('.utterances')) return;
-            
-            const utterancesContainer = document.getElementById('utterances-container');
-            const script = document.createElement('script');
-            script.src = 'https://utteranc.es/client.js';
-            script.setAttribute('repo', 'SHAUKAT23/test');  // Replace with your username/repo
-            script.setAttribute('issue-term', 'kho-kho-tournament-comments');
-            script.setAttribute('theme', 'github-light');
-            script.setAttribute('crossorigin', 'anonymous');
-            script.async = true;
-            
-            // Remove loading message and append script
-            utterancesContainer.innerHTML = '';
-            utterancesContainer.appendChild(script);
+            if (window.disqus_loaded) return;
+            window.disqus_loaded = true;
+    
+            var disqus_config = function () {
+                this.page.url = window.location.href;
+                this.page.identifier = 'kho-kho-tournament-comments';
+            };
+    
+           (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://YOUR-DISQUS-SHORTNAME.disqus.com/embed.js'; // Replace with your Disqus shortname
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
         }
         
         // Check screen size and adjust tab UI
