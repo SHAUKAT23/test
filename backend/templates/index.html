@@ -178,21 +178,6 @@
             margin-top: 20px;
         }
 
-        /* Comments section styles */
-        .comments-intro {
-            margin-bottom: 30px;
-        }
-
-        .utterances-container {
-            margin-top: 30px;
-        }
-
-        .comments-loading {
-            text-align: center;
-            padding: 30px;
-            color: #777;
-        }
-
         @keyframes fadeEffect {
             from {opacity: 0;}
             to {opacity: 1;}
@@ -279,7 +264,6 @@
         <div class="tabs">
             <button class="tab-button active" onclick="openTab(event, 'schedule-tab')">Schedule</button>
             <button class="tab-button" onclick="openTab(event, 'scoreboard-tab')">Scoreboard</button>
-            <button class="tab-button" onclick="openTab(event, 'comments-tab')">Comments</button>
         </div>
 
         <div id="schedule-tab" class="tab-content active">
@@ -307,19 +291,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="comments-tab" class="tab-content">
-            <h2>Fan Comments</h2>
-            <div class="comments-intro">
-                <p>Share your thoughts, support your team, or discuss the matches! No sign-in required.</p>
-            </div>
-
-            <iframe src="YOUR_GOOGLE_FORM_URL" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading form...</iframe>
-
-            <div class="view-comments">
-                <p>View all comments on the <a href="YOUR_GOOGLE_FORM_RESPONSES_URL" target="_blank">comments page</a>.</p>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -342,29 +313,6 @@
             // Show the current tab, and add an "active" class to the button that opened the tab
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
-
-            // Load Utterances when comments tab is opened
-            if (tabName === 'comments-tab') {
-                loadDisqus();
-            }
-        }
-
-        function loadDisqus() {
-            // Don't load if already loaded
-            if (window.disqus_loaded) return;
-            window.disqus_loaded = true;
-
-            var disqus_config = function () {
-                this.page.url = window.location.href;
-                this.page.identifier = 'kho-kho-tournament-comments';
-            };
-
-           (function() {
-                var d = document, s = d.createElement('script');
-                s.src = 'https://matche.disqus.com/embed.js'; // Replace with your Disqus shortname
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
         }
 
         // Check screen size and adjust tab UI
@@ -384,6 +332,11 @@
         // Run on page load and resize
         window.onload = checkScreenSize;
         window.onresize = checkScreenSize;
+
+        // Set the default active tab to Schedule
+        document.addEventListener('DOMContentLoaded', function() {
+            openTab(null, 'schedule-tab');
+        });
     </script>
 </body>
 </html>
