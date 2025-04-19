@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spectrum Tournament - Kho-Kho Matches</title>
+    <title>{{ tournament_name }} - {{ match_type }}</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -48,6 +48,12 @@
             margin-bottom: 20px;
             border-radius: 8px;
             border-left: 5px solid #1d3557;
+        }
+        .match.bronze {
+            border-left: 5px solid #b87333; /* Bronze color */
+        }
+        .match.final {
+            border-left: 5px solid #ffc107; /* Gold color */
         }
         .teams {
             font-size: 1.5em;
@@ -122,7 +128,7 @@
         .men {
             border-left: 5px solid #1d3557;
         }
-        
+
         /* Tab Navigation Styles */
         .tabs {
             overflow: hidden;
@@ -131,7 +137,7 @@
             display: flex;
             flex-wrap: wrap;
         }
-        
+
         .tab-button {
             background-color: #f1faee;
             border: none;
@@ -145,33 +151,33 @@
             margin-right: 5px;
             flex: 1;
         }
-        
+
         .tab-button:hover {
             background-color: #ddd;
         }
-        
+
         .tab-button.active {
             background-color: #457b9d;
             color: white;
         }
-        
+
         .tab-content {
             display: none;
             padding: 6px 12px;
             animation: fadeEffect 1s;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         .scoreboard {
             width: 100%;
             height: 500px;
             border: none;
             margin-top: 20px;
         }
-        
+
         /* Comments section styles */
         .comments-intro {
             margin-bottom: 30px;
@@ -180,7 +186,7 @@
         .utterances-container {
             margin-top: 30px;
         }
-        
+
         .comments-loading {
             text-align: center;
             padding: 30px;
@@ -191,70 +197,70 @@
             from {opacity: 0;}
             to {opacity: 1;}
         }
-        
+
         /* Responsive styles */
         @media screen and (max-width: 768px) {
             body {
                 padding: 10px;
             }
-            
+
             .container {
                 padding: 15px;
             }
-            
+
             h1 {
                 font-size: 1.8em;
             }
-            
+
             h2 {
                 font-size: 1.4em;
             }
-            
+
             /* Make pools stack on mobile */
             .pools {
                 flex-direction: column;
             }
-            
+
             .pool {
                 width: 100%;
                 margin-bottom: 20px;
             }
-            
+
             /* Improve tab navigation */
             .tab-button {
                 padding: 10px;
                 font-size: 14px;
             }
-            
+
             /* Table responsive styles */
             .table-container {
                 overflow-x: auto;
             }
-            
+
             /* Match details adjustments */
             .teams {
                 font-size: 1.2em;
             }
-            
+
             .details {
                 margin-left: 5px;
             }
-            
+
             .scoreboard {
                 height: 350px;
             }
         }
-        
+
         /* Extra small screens */
         @media screen and (max-width: 480px) {
             h1 {
                 font-size: 1.5em;
             }
-            
+
             .tab-button {
                 margin-right: 0;
             }
-            
+
             .scoreboard {
                 height: 300px;
             }
@@ -263,180 +269,96 @@
 </head>
 <body>
     <div class="container">
-        <h1>SPECTRUM TOURNAMENT</h1>
-        <h2>KHO-KHO MATCHES</h2>
-        
+        <h1>{{ tournament_name }}</h1>
+        <h2>{{ match_type }}</h2>
+
         <div class="venue">
-            <p><span class="icon">📍</span> All matches at TMC Ground</p>
+            <p><span class="icon">📍</span> All matches at {{ venue }}</p>
         </div>
-        
-        <!-- Tab Navigation -->
+
         <div class="tabs">
             <button class="tab-button active" onclick="openTab(event, 'schedule-tab')">Schedule</button>
             <button class="tab-button" onclick="openTab(event, 'scoreboard-tab')">Scoreboard</button>
             <button class="tab-button" onclick="openTab(event, 'comments-tab')">Comments</button>
         </div>
-        
-        <!-- Schedule Tab Content -->
+
         <div id="schedule-tab" class="tab-content active">
+            <h2>Final Matches Schedule</h2>
             <div class="matches-container">
-                <div class="match men">
-                    <div class="teams">MEN'S MATCH: STAFF vs CENSE</div>
+                {% for match in matches %}
+                <div class="match {{ match.type }}">
+                    <div class="teams">{{ match.teams }}</div>
                     <div class="details">
-                        <p class="detail"><span class="icon">📅</span> Tuesday, 8th April 2025</p>
-                        <p class="detail"><span class="icon">🕖</span> 7:00 PM</p>
+                        <p class="detail"><span class="icon">📅</span> {{ match.date }}</p>
+                        <p class="detail"><span class="icon">🕗</span> {{ match.time }}</p>
                     </div>
                 </div>
-                
-                <div class="match women">
-                    <div class="teams">WOMEN'S MATCH: CIVIL vs UG</div>
-                    <div class="details">
-                        <p class="detail"><span class="icon">📅</span> Tuesday, 8th April 2025</p>
-                        <p class="detail"><span class="icon">🕗</span> 8:00 PM</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="cta">
-                COME SUPPORT YOUR TEAM!
-            </div>
-            
-            <div class="schedule">
-                <h2>Men's Tournament Schedule</h2>
-                
-                <div class="pools">
-                    <div class="pool">
-                        <h3>Pool A</h3>
-                        <ul>
-                            <li>Bio Engineering (1)</li>
-                            <li>CSA (3)</li>
-                            <li>UG (5)</li>
-                        </ul>
-                    </div>
-                    <div class="pool">
-                        <h3>Pool B</h3>
-                        <ul>
-                            <li>Civil (2)</li>
-                            <li>DESE (4)</li>
-                            <li>Staff (6)</li>
-                            <li>CENSE (8)</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="round-title">ROUND 1</div>
-                
-                <div class="table-container">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th>Match 1</th>
-                            <th>Time</th>
-                            <th>Match 2</th>
-                            <th>Time</th>
-                            <th>Match 3</th>
-                            <th>Time</th>
-                        </tr>
-                        <tr>
-                            <td>Tuesday</td>
-                            <td>Staff vs CENSE</td>
-                            <td>7:00 PM</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Wednesday</td>
-                            <td>UG vs Bio Engineering</td>
-                            <td>5:30 PM</td>
-                            <td>DESE vs Staff</td>
-                            <td>7:15 PM</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Thursday</td>
-                            <td>CSA vs UG</td>
-                            <td>4:30 PM</td>
-                            <td>Civil Eng vs DESE</td>
-                            <td>5:30 PM</td>
-                            <td>Civil Eng vs CENSE</td>
-                            <td>8:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Friday</td>
-                            <td>DESE vs CENSE</td>
-                            <td>-</td>
-                            <td>Staff vs Civil Eng</td>
-                            <td>-</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="round-title">ROUND 2</div>
-                
-                <p><strong>Semifinal 1:</strong> Between Pool B 1st position vs Pool A 2nd position</p>
-                <p><strong>Semifinal qualifier:</strong> Between Pool B 2nd and 3rd position</p>
-                <p><strong>Semifinal 2:</strong> Semifinal qualifier winner vs Pool A 1st position</p>
+                {% endfor %}
             </div>
         </div>
-        
-                <!-- Comments Tab Content -->
+
+        <div id="scoreboard-tab" class="tab-content">
+            <h2>Women's Result Sheet</h2>
+            <div class="result-section">
+                <h3>Women's Results</h3>
+                <div class="result-frame">
+                    <p><strong>🥇 Gold:</strong> Civil</p>
+                    <p><strong>🥈 Silver:</strong> DESE</p>
+                </div>
+            </div>
+        </div>
+
         <div id="comments-tab" class="tab-content">
             <h2>Fan Comments</h2>
             <div class="comments-intro">
                 <p>Share your thoughts, support your team, or discuss the matches! No sign-in required.</p>
             </div>
-            
-            <!-- Replace the iframe src with your Google Form embed code -->
+
             <iframe src="YOUR_GOOGLE_FORM_URL" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading form...</iframe>
-            
+
             <div class="view-comments">
                 <p>View all comments on the <a href="YOUR_GOOGLE_FORM_RESPONSES_URL" target="_blank">comments page</a>.</p>
             </div>
         </div>
-
+    </div>
 
     <script>
         function openTab(evt, tabName) {
             // Declare all variables
             let i, tabContent, tabButtons;
-            
+
             // Get all elements with class="tab-content" and hide them
             tabContent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabContent.length; i++) {
                 tabContent[i].classList.remove("active");
             }
-            
+
             // Get all elements with class="tab-button" and remove the class "active"
             tabButtons = document.getElementsByClassName("tab-button");
             for (i = 0; i < tabButtons.length; i++) {
                 tabButtons[i].classList.remove("active");
             }
-            
+
             // Show the current tab, and add an "active" class to the button that opened the tab
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
-            
+
             // Load Utterances when comments tab is opened
             if (tabName === 'comments-tab') {
                 loadDisqus();
             }
         }
-        
+
         function loadDisqus() {
             // Don't load if already loaded
             if (window.disqus_loaded) return;
             window.disqus_loaded = true;
-    
+
             var disqus_config = function () {
                 this.page.url = window.location.href;
                 this.page.identifier = 'kho-kho-tournament-comments';
             };
-    
+
            (function() {
                 var d = document, s = d.createElement('script');
                 s.src = 'https://matche.disqus.com/embed.js'; // Replace with your Disqus shortname
@@ -444,7 +366,7 @@
                 (d.head || d.body).appendChild(s);
             })();
         }
-        
+
         // Check screen size and adjust tab UI
         function checkScreenSize() {
             const tabButtons = document.getElementsByClassName("tab-button");
@@ -458,7 +380,7 @@
                 }
             }
         }
-        
+
         // Run on page load and resize
         window.onload = checkScreenSize;
         window.onresize = checkScreenSize;
